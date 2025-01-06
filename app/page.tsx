@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import { externalLinks } from '@/utils/external-links'
 
 export default function Home() {
   return (
@@ -15,7 +16,7 @@ export default function Home() {
           </p>
           <div className="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
             <div className="rounded-md shadow">
-              <Link href="https://marketplace.visualstudio.com/items?itemName=Aitrack.aitrack" target="_blank" rel="noopener noreferrer">
+              <Link href={externalLinks.aitrack} target="_blank" rel="noopener noreferrer">
                 <Button className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10">
                   Get AITrack
                 </Button>
@@ -45,7 +46,7 @@ export default function Home() {
         <div className="aspect-w-16 aspect-h-9">
           <iframe
             className="w-full h-full rounded-lg shadow-lg"
-            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+            src={externalLinks.instruction}
             title="AITrack Demo Video"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -74,7 +75,7 @@ export default function Home() {
                 <li>Search for &quot;AiTrack&ldquo; and click &quot;Install.&quot;</li>
               </ul>
               <p className="mt-2 text-base text-gray-500">
-                Alternatively: Install <a href="https://marketplace.visualstudio.com/" className="text-indigo-600 hover:text-indigo-500">AiTrack from VS Code Marketplace</a>
+                Alternatively: Install <a href={externalLinks.aitrack} className="text-indigo-600 hover:text-indigo-500">AiTrack from VS Code Marketplace</a>
               </p>
             </div>
             <div className="relative">
@@ -96,7 +97,9 @@ export default function Home() {
     "node_modules",
     "dist",
     ".git"
-  ]
+  ],
+  "aitrack.saveDiffFiles": false
+  "aitrack.repoVisibility": "private"
 }`}
               </pre>
             </div>
@@ -117,7 +120,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="bg-white">
+      <div className="bg-gray-50">
         <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl font-extrabold text-gray-900">Key Features</h2>
@@ -130,45 +133,64 @@ export default function Home() {
               {
                 name: 'AI-Powered Suggestions',
                 description: 'Get intelligent code suggestions as you type, helping you write better code faster.',
+                icon: (
+                  <svg className="absolute h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                  </svg>
+                ),
               },
               {
                 name: 'Real-time Code Analysis',
                 description: 'Identify potential issues and optimize your code on the fly.',
+                icon: (
+                  <svg className="absolute h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                  </svg>
+                ),
               },
               {
                 name: 'Language Support',
                 description: 'Works with a wide range of programming languages and frameworks.',
+                icon: (
+                  <svg className="absolute h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                  </svg>
+                ),
               },
               {
                 name: 'Customizable Settings',
                 description: 'Tailor AITrack to your specific needs and coding style.',
+                icon: (
+                  <svg className="absolute h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                ),
               },
               {
                 name: 'Performance Optimization',
                 description: "Lightweight extension that won't slow down your development environment.",
+                icon: (
+                  <svg className="absolute h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                ),
               },
               {
                 name: 'Regular Updates',
                 description: 'Benefit from continuous improvements and new features.',
+                icon: (
+                  <svg className="absolute h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
+                ),
               },
             ].map((feature) => (
-              <div key={feature.name} className="relative">
+              <div key={feature.name} className="relative bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition duration-300">
                 <dt>
-                  <svg
-                    className="absolute h-6 w-6 text-green-500"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
+                  <div className="absolute left-6 top-6">
+                    {feature.icon}
+                  </div>
                   <p className="ml-9 text-lg leading-6 font-medium text-gray-900">{feature.name}</p>
                 </dt>
                 <dd className="mt-2 ml-9 text-base text-gray-500">{feature.description}</dd>
