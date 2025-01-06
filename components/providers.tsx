@@ -4,6 +4,7 @@ import { ClerkProvider } from '@clerk/nextjs'
 import { dark } from '@clerk/themes'
 import { ThemeProvider } from 'next-themes'
 import { useEffect, useState } from 'react'
+import { Toaster } from './ui/sonner'
 
 type ProvidersProps = {
   children: React.ReactNode
@@ -22,6 +23,7 @@ export default function Providers({ children }: ProvidersProps) {
 
   return (
     <ClerkProvider
+      dynamic
       appearance={{
         baseTheme: dark
       }}
@@ -33,6 +35,7 @@ export default function Providers({ children }: ProvidersProps) {
         disableTransitionOnChange
       >
         {children}
+        <Toaster />
       </ThemeProvider>
     </ClerkProvider>
   )

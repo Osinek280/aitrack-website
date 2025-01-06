@@ -1,8 +1,13 @@
+"use client"
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { externalLinks } from '@/utils/external-links'
+import { useUser } from '@clerk/nextjs'
+import { toast } from "sonner"
 
 export default function Home() {
+  const { isSignedIn } = useUser();
+
   return (
     <div className="bg-background">
       <div className="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
@@ -17,14 +22,36 @@ export default function Home() {
           <div className="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
             <div className="rounded-md shadow">
               <Link href={externalLinks.aitrack} target="_blank" rel="noopener noreferrer">
-                <Button size="lg" className="md:py-4 md:text-lg md:px-10">
+                <Button
+                  size="lg" 
+                  className="md:py-4 md:text-lg md:px-10"
+                >
                   Get Ai-Track
                 </Button>
               </Link>
             </div>
             <div className="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
               <Link href="/pricing">
-                <Button size="lg" variant="outline" className="md:py-4 md:text-lg md:px-10">
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  className="md:py-4 md:text-lg md:px-10"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if(isSignedIn) {
+                    }else {
+                      toast("Please login or sign up to purchase", {
+                        description: "You must be logged in to make a purchase",
+                        action: {
+                          label: "Sign Up",
+                          onClick: () => {
+                            console.log("cipa")
+                          },
+                        },
+                      })
+                    }
+                  }}
+                >
                   View Pricing
                 </Button>
               </Link>
