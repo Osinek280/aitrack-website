@@ -4,27 +4,27 @@ import { externalLinks } from '@/utils/external-links'
 
 export default function Home() {
   return (
-    <div className="bg-white">
+    <div className="bg-background">
       <div className="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
         <div className="text-center">
-          <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
+          <h1 className="text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:text-6xl">
             <span className="block">Supercharge your coding</span>
-            <span className="block text-indigo-600">with AITrack</span>
+            <span className="block text-indigo-600">with AiTrack</span>
           </h1>
-          <p className="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
+          <p className="mt-3 max-w-md mx-auto text-base text-muted-foreground sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
             AITrack is a powerful VS Code extension that helps you write better code faster. Get real-time AI-powered suggestions and insights as you code.
           </p>
           <div className="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
             <div className="rounded-md shadow">
               <Link href={externalLinks.aitrack} target="_blank" rel="noopener noreferrer">
-                <Button className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10">
-                  Get AITrack
+                <Button size="lg" className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10">
+                  Get AiTrack
                 </Button>
               </Link>
             </div>
             <div className="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
               <Link href="/pricing">
-                <Button variant="outline" className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10">
+                <Button size="lg" variant="outline" className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10">
                   View Pricing
                 </Button>
               </Link>
@@ -36,10 +36,10 @@ export default function Home() {
       {/* Video Section */}
       <div className="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+          <h2 className="text-3xl font-extrabold text-secondary-foreground sm:text-4xl">
             See AITrack in Action
           </h2>
-          <p className="mt-3 max-w-2xl mx-auto text-xl text-gray-500 sm:mt-4">
+          <p className="mt-3 max-w-2xl mx-auto text-xl text-muted-foreground sm:mt-4">
             Watch how AITrack can revolutionize your coding experience
           </p>
         </div>
@@ -55,38 +55,38 @@ export default function Home() {
         </div>
       </div>
 
-      {/* New Getting Started Section */}
-      <div className="bg-gray-50">
+      {/* Getting Started Section */}
+      <div className="bg-background">
         <div className="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+            <h2 className="text-3xl font-extrabold text-secondary-foreground sm:text-4xl">
               Getting Started
             </h2>
-            <p className="mt-3 max-w-2xl mx-auto text-xl text-gray-500 sm:mt-4">
+            <p className="mt-3 max-w-2xl mx-auto text-xl text-muted-foreground sm:mt-4">
               Follow these simple steps to start using AITrack
             </p>
           </div>
           <div className="mt-12 space-y-10">
             <div className="relative">
-              <h3 className="text-lg leading-6 font-medium text-gray-900">1. Install the Extension</h3>
-              <ul className="mt-2 ml-4 list-disc list-inside text-base text-gray-500">
+              <h3 className="text-lg leading-6 font-medium text-secondary-foreground">1. Install the Extension</h3>
+              <ul className="mt-2 ml-4 list-disc list-inside text-base text-secondary-foreground">
                 <li>Open Visual Studio Code.</li>
                 <li>Go to the Extensions Marketplace (Ctrl+Shift+X or Cmd+Shift+X).</li>
                 <li>Search for &quot;AiTrack&ldquo; and click &quot;Install.&quot;</li>
               </ul>
-              <p className="mt-2 text-base text-gray-500">
+              <p className="mt-2 text-base text-secondary-foreground">
                 Alternatively: Install <a href={externalLinks.aitrack} className="text-indigo-600 hover:text-indigo-500">AiTrack from VS Code Marketplace</a>
               </p>
             </div>
             <div className="relative">
-              <h3 className="text-lg leading-6 font-medium text-gray-900">2. Log in to GitHub</h3>
-              <p className="mt-2 text-base text-gray-500">
+              <h3 className="text-lg leading-6 font-medium text-secondary-foreground">2. Log in to GitHub</h3>
+              <p className="mt-2 text-base text-secondary-foreground">
                 The extension will automatically handle GitHub authentication when needed.
               </p>
             </div>
             <div className="relative">
-              <h3 className="text-lg leading-6 font-medium text-gray-900">3. Choose your tracking preferences</h3>
-              <p className="mt-2 text-base text-gray-500">
+              <h3 className="text-lg leading-6 font-medium text-secondary-foreground">3. Choose your tracking preferences</h3>
+              <p className="mt-2 text-base text-secondary-foreground">
                 In VS Code Settings (Ctrl+, or Cmd+,), add the following:
               </p>
               <pre className="mt-2 bg-gray-800 text-white p-4 rounded-md overflow-x-auto">
@@ -104,15 +104,15 @@ export default function Home() {
               </pre>
             </div>
             <div className="relative">
-              <h3 className="text-lg leading-6 font-medium text-gray-900">4. Start Tracking</h3>
-              <ul className="mt-2 ml-4 list-disc list-inside text-base text-gray-500">
+              <h3 className="text-lg leading-6 font-medium text-secondary-foreground">4. Start Tracking</h3>
+              <ul className="mt-2 ml-4 list-disc list-inside text-base text-secondary-foreground">
                 <li>Tracking will start automatically once the extension is active.</li>
                 <li>You don&apos;t need to take any further action.</li>
               </ul>
             </div>
             <div className="relative">
-              <h3 className="text-lg leading-6 font-medium text-gray-900">5. View Your Progress</h3>
-              <p className="mt-2 text-base text-gray-500">
+              <h3 className="text-lg leading-6 font-medium text-secondary-foreground">5. View Your Progress</h3>
+              <p className="mt-2 text-base text-secondary-foreground">
                 Visit your tracking repository on GitHub to see your logs, AI-generated commit messages, and detailed diffs.
               </p>
             </div>
@@ -120,11 +120,11 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="bg-gray-50">
+      <div className="bg-background">
         <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl font-extrabold text-gray-900">Key Features</h2>
-            <p className="mt-4 text-lg text-gray-500">
+            <h2 className="text-3xl font-extrabold text-secondary-foreground">Key Features</h2>
+            <p className="mt-4 text-lg text-muted-foreground">
               Discover how AITrack can revolutionize your coding experience.
             </p>
           </div>
@@ -186,14 +186,14 @@ export default function Home() {
                 ),
               },
             ].map((feature) => (
-              <div key={feature.name} className="relative bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition duration-300">
+              <div key={feature.name} className="relative p-6 bg-secondary rounded-lg shadow-sm hover:shadow-md transition duration-300">
                 <dt>
                   <div className="absolute left-6 top-6">
                     {feature.icon}
                   </div>
-                  <p className="ml-9 text-lg leading-6 font-medium text-gray-900">{feature.name}</p>
+                  <p className="ml-9 text-lg leading-6 font-medium text-foreground">{feature.name}</p>
                 </dt>
-                <dd className="mt-2 ml-9 text-base text-gray-500">{feature.description}</dd>
+                <dd className="mt-2 ml-9 text-base text-muted-foreground">{feature.description}</dd>
               </div>
             ))}
           </dl>
