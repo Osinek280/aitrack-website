@@ -1,9 +1,9 @@
 "use client"
 import Link from 'next/link'
 import { ModeToggle } from './mode-toggle'
-import { ClerkLoaded, ClerkLoading, SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { ClerkLoaded, ClerkLoading, SignedIn, UserButton } from "@clerk/nextjs";
 import { Loader } from "lucide-react";
-import { Button } from './ui/button';
+// import { Button } from './ui/button';
 import { useTheme } from 'next-themes';
 import { dark } from "@clerk/themes"
 
@@ -30,11 +30,11 @@ export default function Header() {
                 }}
               />
             </SignedIn>
-            <SignedOut>
-              <SignInButton mode="modal">
+            {/* <SignedOut>
+              <Link href="/sign-in">
                 <Button size="lg" className='font-bold'>Login</Button>
-              </SignInButton>
-            </SignedOut>
+              </Link>
+            </SignedOut> */}
           </ClerkLoaded>
         </div>
       </nav>

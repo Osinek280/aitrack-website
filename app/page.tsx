@@ -4,10 +4,11 @@ import { Button } from '@/components/ui/button'
 import { externalLinks } from '@/utils/external-links'
 import { useUser } from '@clerk/nextjs'
 import { toast } from "sonner"
+import { useRouter } from 'next/navigation'
 
 export default function Home() {
   const { isSignedIn } = useUser();
-
+  const router = useRouter();
   return (
     <div className="bg-background">
       <div className="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
@@ -45,7 +46,7 @@ export default function Home() {
                         action: {
                           label: "Sign Up",
                           onClick: () => {
-                            console.log("cipa")
+                            router.push("/sign-up")
                           },
                         },
                       })

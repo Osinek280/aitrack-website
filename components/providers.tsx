@@ -2,7 +2,7 @@
 
 import { ClerkProvider } from '@clerk/nextjs'
 import { dark } from '@clerk/themes'
-import { ThemeProvider } from 'next-themes'
+import { ThemeProvider, useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import { Toaster } from './ui/sonner'
 
@@ -12,6 +12,7 @@ type ProvidersProps = {
 
 export default function Providers({ children }: ProvidersProps) {
   const [mounted, setMounted] = useState(false)
+  const { theme } = useTheme()
 
   useEffect(() => {
     setMounted(true)
@@ -25,8 +26,8 @@ export default function Providers({ children }: ProvidersProps) {
     <ClerkProvider
       dynamic
       appearance={{
-        baseTheme: dark
-      }}
+        baseTheme: theme === 'dark' ? dark : undefined
+      }} 
     >
       <ThemeProvider
         attribute="class" 
