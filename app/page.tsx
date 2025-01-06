@@ -17,14 +17,14 @@ export default function Home() {
           <div className="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
             <div className="rounded-md shadow">
               <Link href={externalLinks.aitrack} target="_blank" rel="noopener noreferrer">
-                <Button size="lg" className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10">
-                  Get AiTrack
+                <Button size="lg" className="md:py-4 md:text-lg md:px-10">
+                  Get Ai-Track
                 </Button>
               </Link>
             </div>
             <div className="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
               <Link href="/pricing">
-                <Button size="lg" variant="outline" className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10">
+                <Button size="lg" variant="outline" className="md:py-4 md:text-lg md:px-10">
                   View Pricing
                 </Button>
               </Link>

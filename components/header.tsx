@@ -32,7 +32,7 @@ export default function Header() {
             </SignedIn>
             <SignedOut>
               <SignInButton mode="modal">
-                <Button size="lg">Login</Button>
+                <Button size="lg" className='font-bold'>Login</Button>
               </SignInButton>
             </SignedOut>
           </ClerkLoaded>
