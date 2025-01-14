@@ -76,6 +76,7 @@ const BillingPage = () => {
 						</CardContent>
 
 						<CardFooter className='flex justify-end bg-gray-50 dark:bg-secondary mt-6'>
+							<Link href={process.env.NEXT_PUBLIC_STRIPE_CUSTOMER_PORTAL_URL!}>
 							<Button
 								disabled={isLoading}
 								className='bg-purple-600 hover:bg-purple-700 text-white dark:bg-purple-600 dark:hover:bg-purple-700'
@@ -89,6 +90,7 @@ const BillingPage = () => {
 									"Manage Billing"
 								)}
 							</Button>
+							</Link>
 						</CardFooter>
 					</>
 				) : (
