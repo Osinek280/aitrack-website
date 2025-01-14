@@ -32,14 +32,11 @@ export async function GET(req: NextRequest) {
         status: sub.status,
       }))
 
-      NextResponse.json({ permission: sub[0].status === 'active' ? true : false })
-
+      return NextResponse.json({ permission: sub[0].status === 'active' ? true : false });
     } else {
       return NextResponse.json({ error: "Email is missing in the request headers" });
     }
   }catch(err) {
     return NextResponse.json({ error: `Internal Server Error: ${err}` })
   }
-
-  return NextResponse.json({ success: false, message: 'stripe error' });
 }
