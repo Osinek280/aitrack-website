@@ -85,7 +85,7 @@ export default function Home() {
               </Link>
             </div>
             <div className="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
-              <Link href="/pricing">
+              <Link href="/billing">
                 <Button 
                   size="lg" 
                   variant="outline" 
