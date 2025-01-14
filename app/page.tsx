@@ -5,62 +5,10 @@ import { externalLinks } from '@/utils/external-links'
 import { useUser } from '@clerk/nextjs'
 import { toast } from "sonner"
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { loadStripe } from "@stripe/stripe-js"
-import { Stripe } from '@stripe/stripe-js'
 
 export default function Home() {
-  const { isSignedIn, user } = useUser();
+  const { isSignedIn } = useUser();
   const router = useRouter();
-
-  const [stripePromise, setStripePromise] = useState<Promise<Stripe | null> | null>(null)
-
-  useEffect(() => {
-    setStripePromise(loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!))
-  }, [])
-
-  const handleCheckout = async (priceId: string, subscription: boolean) => {
-    try {
-      const response = await fetch(`/api/payments/create-checkout-session`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId: user?.id,
-          email: user?.emailAddresses?.[0]?.emailAddress,
-          priceId,
-          subscription,
-        }),
-      });
-  
-      if (!response.ok) {
-        console.error('Failed to create checkout session:', response.statusText);
-        toast('Failed to create checkout session');
-        return;
-      }
-  
-      const data = await response.json();
-  
-      if (data.sessionId) {
-        const stripe = await stripePromise;
-  
-        const stripeResponse = await stripe?.redirectToCheckout({
-          sessionId: data.sessionId,
-        });
-  
-        return stripeResponse;
-      } else {
-        console.error('Failed to create checkout session');
-        toast('Failed to create checkout session');
-        return;
-      }
-    } catch (error) {
-      console.error('Error during checkout:', error);
-      toast('Error during checkout');
-      return;
-    }
-  };  
 
   return (
     <div className="bg-background">
@@ -93,7 +41,7 @@ export default function Home() {
                   onClick={(e) => {
                     e.preventDefault();
                     if(isSignedIn) {
-                      handleCheckout(process.env.NEXT_PUBLIC_STRIPE_PRICE_ID!, true)
+                      router.push("/billing")
                     }else {
                       toast("Please login or sign up to purchase", {
                         description: "You must be logged in to make a purchase",

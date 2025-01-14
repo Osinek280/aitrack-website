@@ -1,3 +1,4 @@
+import { clerkClient } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -105,6 +106,14 @@ async function handleCheckoutSessionCompleted(event: Stripe.Event) {
       error: "Subscription ID is missing in the session",
     });
   }
+
+  const client = await clerkClient();
+
+  await client.users.updateUserMetadata(metadata.userId, {
+    privateMetadata: {
+      stripe_id: session.customer
+    }
+  })
 
   try {
     await stripe.subscriptions.update(subscriptionId as string, { metadata });
