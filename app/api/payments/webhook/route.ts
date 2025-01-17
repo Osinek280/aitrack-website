@@ -1,3 +1,4 @@
+// import { clerkClient } from "@clerk/nextjs/server";
 import { clerkClient } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
@@ -27,10 +28,15 @@ export async function POST(req: NextRequest) {
     console.log(`Received event: ${event.type}`);
 
     switch (event.type) {
-      case "customer.subscription.created":
-      case "customer.subscription.updated":
+      // case "customer.subscription.created":
+      //   return handleSubscriptionEvent(event, "created");
+      // case "customer.subscription.updated":
+      //   return handleSubscriptionEvent(event, "updated");
       case "customer.subscription.deleted":
-        return handleSubscriptionEvent(event, event.type.split(".")[2] as "created" | "updated" | "deleted");
+        return handleSubscriptionEvent(event, "deleted");
+
+      case "checkout.session.completed":
+        return handleCheckoutSessionCompleted(event);
 
       default:
         console.warn(`Unhandled event type: ${event.type}`);
@@ -65,7 +71,6 @@ async function handleSubscriptionEvent(
   const subscription = event.data.object as Stripe.Subscription;
   const customerEmail = await getCustomerEmail(subscription.customer as string);
   const session = event.data.object as Stripe.Checkout.Session;
-  const metadata = session.metadata || {};
 
   if (!customerEmail) {
     return NextResponse.json({
@@ -78,16 +83,15 @@ async function handleSubscriptionEvent(
 
   const client = await clerkClient();
 
-  if (type === "deleted" && metadata.userId) {  
-    await client.users.updateUserMetadata(metadata.userId, {
+  const customerId = session.customer as string
+  const customer = await stripe.customers.retrieve(customerId)
+  const userId = (customer as Stripe.Customer).metadata.userId;
+
+  if (type === "deleted" && userId) {
+    console.log("test")  
+    await client.users.updateUserMetadata(userId, {
       privateMetadata: {
         subscription_id: null
-      }
-    })
-  }else {
-    await client.users.updateUserMetadata(metadata.userId, {
-      privateMetadata: {
-        subscription_id: session.id
       }
     })
   }
@@ -105,4 +109,54 @@ async function handleSubscriptionEvent(
     message: `Subscription ${type} success`,
     data,
   });
+}
+
+async function handleCheckoutSessionCompleted(event: Stripe.Event) {
+  const session = event.data.object as Stripe.Checkout.Session;
+  const metadata = session.metadata || {};
+  const subscriptionId = session.subscription;
+
+  if (!subscriptionId) {
+    return NextResponse.json({
+      status: 400,
+      error: "Subscription ID is missing in the session",
+    });
+  }
+
+  if (typeof session.customer === 'string') {
+    await stripe.customers.update(session.customer, {
+      metadata: {
+        userId: metadata.userId
+      }
+    });
+  } else {
+    return NextResponse.json({
+      status: 400,
+      error: "Invalid customer ID",
+    });
+  }
+
+  const client = await clerkClient();
+
+  await client.users.updateUserMetadata(metadata.userId, {
+    privateMetadata: {
+      subscription_id: session.customer
+    }
+  })
+
+  try {
+    await stripe.subscriptions.update(subscriptionId as string, { metadata });
+
+    console.log(`Updated metadata for subscription: ${subscriptionId}`);
+    return NextResponse.json({
+      status: 200,
+      message: "Subscription metadata updated successfully",
+    });
+  } catch (error) {
+    console.error("Error updating subscription metadata:", error);
+    return NextResponse.json({
+      status: 500,
+      error: "Error updating subscription metadata",
+    });
+  }
 }

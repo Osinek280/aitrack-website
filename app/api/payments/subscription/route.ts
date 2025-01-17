@@ -1,3 +1,4 @@
+import { clerkClient } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -8,6 +9,23 @@ export async function GET(req: NextRequest) {
 
   try {
     if (email) {
+      const client = await clerkClient();
+      
+      const { data } = await client.users.getUserList({
+        emailAddress: ["szymon.osinski.2009@gmail.com"]
+      });
+
+
+      const subscription_id = data[0].publicMetadata.subscription_id as string
+
+      if(!subscription_id) {
+        return NextResponse.json({ permission: false, error: 'does not have required subscription' })
+      }
+
+      const subscription = await stripe.subscriptions.retrieve(subscription_id)
+
+      console.log(subscription);
+
       const customers = await stripe.customers.list({
         email: email
       });
