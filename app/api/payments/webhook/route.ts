@@ -28,10 +28,6 @@ export async function POST(req: NextRequest) {
     console.log(`Received event: ${event.type}`);
 
     switch (event.type) {
-      // case "customer.subscription.created":
-      //   return handleSubscriptionEvent(event, "created");
-      // case "customer.subscription.updated":
-      //   return handleSubscriptionEvent(event, "updated");
       case "customer.subscription.deleted":
         return handleSubscriptionEvent(event, "deleted");
 
@@ -123,24 +119,11 @@ async function handleCheckoutSessionCompleted(event: Stripe.Event) {
     });
   }
 
-  if (typeof session.customer === 'string') {
-    await stripe.customers.update(session.customer, {
-      metadata: {
-        userId: metadata.userId
-      }
-    });
-  } else {
-    return NextResponse.json({
-      status: 400,
-      error: "Invalid customer ID",
-    });
-  }
-
   const client = await clerkClient();
 
   await client.users.updateUserMetadata(metadata.userId, {
     privateMetadata: {
-      subscription_id: session.customer
+      subscription_id: session.subscription
     }
   })
 
