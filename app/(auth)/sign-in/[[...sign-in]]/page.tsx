@@ -12,7 +12,6 @@ export default function SignInPage() {
             baseTheme: theme === 'dark' ? dark : undefined
           }} 
           fallbackRedirectUrl="/" 
-          signUpFallbackRedirectUrl="/billing"
         />
     </div>
   );

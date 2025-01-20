@@ -36,7 +36,7 @@ export async function GET(req: NextRequest) {
     
     const hasPermission = subscription.status === "active";
     const message = !hasPermission ? 'User does not have an active subscription' : ""
-    return NextResponse.json({ permission: hasPermission, message: message }, { status: 200 });
+    return NextResponse.json({ permission: hasPermission, message: message, subscription: subscription }, { status: 200 });
   } catch {
     return NextResponse.json({ error: `User does not have an active subscription` }, { status: 500 });
   }

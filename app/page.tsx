@@ -14,6 +14,7 @@ export default function Home() {
   const router = useRouter();
 
   const [stripePromise, setStripePromise] = useState<Promise<Stripe | null> | null>(null)
+  const [isSubscription, setIsSubscription] = useState(false)
 
   useEffect(() => {
     setStripePromise(loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!))
@@ -62,6 +63,37 @@ export default function Home() {
     }
   };  
 
+  useEffect(() => {
+    const fetchSubscription = async () => {
+      try {
+				const response = await fetch(`/api/payments/permisson`, {
+					method: 'GET',
+					headers: {
+						'Authorization': 'szymon.osinski.2009@gmail.com',
+						'Content-Type': 'application/json',
+					},
+				});
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch subscription data")
+        }
+
+        const data = await response.json()
+
+        if(data.subscription) {
+          setIsSubscription(true)
+        }else {
+          setIsSubscription(false)
+        }
+
+      } catch (err) {
+        console.error(err)
+      }
+    }
+
+    fetchSubscription()
+  }, [])
+
   return (
     <div className="bg-background">
       <div className="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
@@ -92,9 +124,8 @@ export default function Home() {
                   className="md:py-4 md:text-lg md:px-10"
                   onClick={(e) => {
                     e.preventDefault();
-                    if(isSignedIn) {
-                      handleCheckout(process.env.NEXT_PUBLIC_STRIPE_PRICE_ID!, true)
-                    }else {
+
+                    if(!isSignedIn) {
                       toast("Please login or sign up to purchase", {
                         description: "You must be logged in to make a purchase",
                         action: {
@@ -104,7 +135,16 @@ export default function Home() {
                           },
                         },
                       })
+
+                      return
                     }
+
+                    if(isSubscription) {
+                      router.push(process.env.NEXT_PUBLIC_STRIPE_CUSTOMER_PORTAL_URL!)
+                    }
+
+                    handleCheckout(process.env.NEXT_PUBLIC_STRIPE_PRICE_ID!, true)
+
                   }}
                 >
                   View Pricing
