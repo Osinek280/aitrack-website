@@ -2,98 +2,9 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { externalLinks } from '@/utils/external-links'
-import { useUser } from '@clerk/nextjs'
 import { toast } from "sonner"
-import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { loadStripe } from "@stripe/stripe-js"
-import { Stripe } from '@stripe/stripe-js'
 
 export default function Home() {
-  const { isSignedIn, user } = useUser();
-  const router = useRouter();
-
-  const [stripePromise, setStripePromise] = useState<Promise<Stripe | null> | null>(null)
-  const [isSubscription, setIsSubscription] = useState(false)
-
-  useEffect(() => {
-    setStripePromise(loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!))
-  }, [])
-
-  const handleCheckout = async (priceId: string, subscription: boolean) => {
-    try {
-      const response = await fetch(`/api/payments/create-checkout-session`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId: user?.id,
-          email: user?.emailAddresses?.[0]?.emailAddress,
-          priceId,
-          subscription,
-        }),
-      });
-  
-      if (!response.ok) {
-        console.error('Failed to create checkout session:', response.statusText);
-        toast('Failed to create checkout session');
-        return;
-      }
-  
-      const data = await response.json();
-  
-      if (data.sessionId) {
-        const stripe = await stripePromise;
-  
-        const stripeResponse = await stripe?.redirectToCheckout({
-          sessionId: data.sessionId,
-        });
-  
-        return stripeResponse;
-      } else {
-        console.error('Failed to create checkout session');
-        toast('Failed to create checkout session');
-        return;
-      }
-    } catch (error) {
-      console.error('Error during checkout:', error);
-      toast('Error during checkout');
-      return;
-    }
-  };  
-
-  useEffect(() => {
-    const fetchSubscription = async () => {
-      try {
-				const response = await fetch(`/api/payments/permisson`, {
-					method: 'GET',
-					headers: {
-						'Authorization': 'szymon.osinski.2009@gmail.com',
-						'Content-Type': 'application/json',
-					},
-				});
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch subscription data")
-        }
-
-        const data = await response.json()
-
-        if(data.subscription) {
-          setIsSubscription(true)
-        }else {
-          setIsSubscription(false)
-        }
-
-      } catch (err) {
-        console.error(err)
-      }
-    }
-
-    fetchSubscription()
-  }, [])
-
   return (
     <div className="bg-background">
       <div className="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
@@ -122,30 +33,11 @@ export default function Home() {
                   size="lg" 
                   variant="outline" 
                   className="md:py-4 md:text-lg md:px-10"
-                  onClick={(e) => {
-                    e.preventDefault();
-
-                    if(!isSignedIn) {
-                      toast("Please login or sign up to purchase", {
-                        description: "You must be logged in to make a purchase",
-                        action: {
-                          label: "Sign Up",
-                          onClick: () => {
-                            router.push("/sign-up")
-                          },
-                        },
-                      })
-
-                      return
-                    }
-
-                    if(isSubscription) {
-                      router.push(process.env.NEXT_PUBLIC_STRIPE_CUSTOMER_PORTAL_URL!)
-                    }
-
-                    handleCheckout(process.env.NEXT_PUBLIC_STRIPE_PRICE_ID!, true)
-
-                  }}
+                  onClick={() => {
+                    toast("Feature Unavailable", {
+                      description: "This functionality is not ready yet. Please check back later.",
+                    });
+                  }}                  
                 >
                   View Pricing
                 </Button>
@@ -221,6 +113,9 @@ export default function Home() {
     ".git"
   ],
   "aitrack.saveDiffFiles": false
+  "aitrack.repoVisibility": "private"
+  "aitrack.repoName": "code-tracking"
+  "aitrack.confirmBeforeCommit": true
   "aitrack.repoVisibility": "private"
 }`}
               </pre>
