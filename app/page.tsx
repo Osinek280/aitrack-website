@@ -12,7 +12,6 @@ import { Stripe } from "@stripe/stripe-js";
 export default function Home() {
   const { isSignedIn, user } = useUser();
   const router = useRouter();
-  const customerPortalLink = process.env.NEXT_PUBLIC_STRIPE_CUSTOMER_PORTAL_URL;
 
   const [stripePromise, setStripePromise] =
     useState<Promise<Stripe | null> | null>(null);
@@ -48,51 +47,19 @@ export default function Home() {
       const data = await response.json();
 
       if (data.sessionId) {
-        const stripe = await stripePromise;
+        if (data.type === "billingPortal") {
+          console.log(data);
+          window.location.assign(data.sessionId);
+          return;
+        } else {
+          const stripe = await stripePromise;
 
-        const stripeResponse = await stripe?.redirectToCheckout({
-          sessionId: data.sessionId,
-        });
+          const stripeResponse = await stripe?.redirectToCheckout({
+            sessionId: data.sessionId,
+          });
 
-        return stripeResponse;
-      } else {
-        console.error("Failed to create checkout session");
-        toast("Failed to create checkout session");
-        return;
-      }
-    } catch (error) {
-      console.error("Error during checkout:", error);
-      toast("Error during checkout");
-      return;
-    }
-  };
-
-  const handlePortal = async () => {
-    try {
-      const response = await fetch(`/api/payments/customer-portal`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: user?.emailAddresses?.[0]?.emailAddress,
-        }),
-      });
-
-      if (!response.ok) {
-        console.error(
-          "Failed to create checkout session:",
-          response.statusText
-        );
-        toast("Failed to create checkout session");
-        return;
-      }
-
-      const data = await response.json();
-
-      if (data.sessionId) {
-        window.location.assign(data.sessionId);
-        return;
+          return stripeResponse;
+        }
       } else {
         console.error("Failed to create checkout session");
         toast("Failed to create checkout session");
@@ -143,33 +110,6 @@ export default function Home() {
                         process.env.NEXT_PUBLIC_STRIPE_PRICE_ID!,
                         true
                       );
-                    } else {
-                      toast("Please login or sign up to purchase", {
-                        description: "You must be logged in to make a purchase",
-                        action: {
-                          label: "Sign Up",
-                          onClick: () => {
-                            router.push("/sign-up");
-                          },
-                        },
-                      });
-                    }
-                  }}
-                >
-                  View Pricing
-                </Button>
-              </Link>
-            </div>
-            <div className="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
-              <Link href="/pricing">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="md:py-4 md:text-lg md:px-10"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    if (isSignedIn) {
-                      if (customerPortalLink) handlePortal();
                     } else {
                       toast("Please login or sign up to purchase", {
                         description: "You must be logged in to make a purchase",
