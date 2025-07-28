@@ -67,6 +67,44 @@ export default function Home() {
     }
   };
 
+  const handlePortal = async () => {
+    try {
+      const response = await fetch(`/api/payments/customer-portal`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: user?.emailAddresses?.[0]?.emailAddress,
+        }),
+      });
+
+      if (!response.ok) {
+        console.error(
+          "Failed to create checkout session:",
+          response.statusText
+        );
+        toast("Failed to create checkout session");
+        return;
+      }
+
+      const data = await response.json();
+
+      if (data.sessionId) {
+        window.location.assign(data.sessionId);
+        return;
+      } else {
+        console.error("Failed to create checkout session");
+        toast("Failed to create checkout session");
+        return;
+      }
+    } catch (error) {
+      console.error("Error during checkout:", error);
+      toast("Error during checkout");
+      return;
+    }
+  };
+
   return (
     <div className="bg-background">
       <div className="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
@@ -131,12 +169,7 @@ export default function Home() {
                   onClick={(e) => {
                     e.preventDefault();
                     if (isSignedIn) {
-                      if (customerPortalLink)
-                        router.push(
-                          customerPortalLink +
-                            "?prefilled_email=" +
-                            user?.emailAddresses?.[0]?.emailAddress
-                        );
+                      if (customerPortalLink) handlePortal();
                     } else {
                       toast("Please login or sign up to purchase", {
                         description: "You must be logged in to make a purchase",
